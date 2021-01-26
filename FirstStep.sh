@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Git管理しないディレクトリとファイルを自動生成する
-mkdir www
+# Git管理外ファイルを自動生成する
 mkdir -p mysql/logs
 touch mysql/logs/mysql-error.log
 touch mysql/logs/mysql-query.log

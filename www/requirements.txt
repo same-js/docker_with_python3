@@ -1,0 +1,12 @@
+Django>=2.2,<2.3
+certifi
+chardet
+idna
+mysql-connector-python
+mysqlclient
+protobuf
+pytz
+requests
+six
+sqlparse
+urllib3

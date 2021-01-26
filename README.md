@@ -8,23 +8,40 @@ https://docs.docker.jp/compose/django.html を参考。
 MySQL側で ネイティブパスワードで接続するように指定しても、 Django側が `caching_sha2_password` を利用して接続しようとするため。
 
 ## インストールされるDjangoのバージョン
-現時点では `2.2` （LTS）。
+現時点では `2.2` （LTS）。  
 バージョンを指定してインストールしたい場合は、 `requirements.txt` の下記の行を修正する。
 ```
 Django>=2.2,<2.3
 ```
 
-ちなみに、`2.2` の次のLTSは `3.2` となることが確定している。（2021/4リリース予定）  
+
+例えば、次のLTSである `3.2` でインストールしたい場合は、次の通り修正する。  
+（ただし、現時点では、この方法では `3.2` をインストールすることはできない）
+
+```
+Django>=3.2,<3.3
+```
+
+となることが確定している。（2021/4リリース予定）  
 https://www.djangoproject.com/download/
 
 ## 初回のみ実行（ビルド〜DB設定まで）
+
+### ディレクトリ・ファイルの自動生成
+
+MySQLを利用するためのログディレクトリが自動生成される。
+```sh
+$ cd /path/to/
+$ ./FirstStep.sh
+```
+
 ### Dockerイメージのビルド
 
 下記コマンドでDockerイメージをビルドする。  
 
 ```sh
 $ cd path/to/
-$ docker-compose run web django-admin.py startproject www .
+$ docker-compose run web django-admin.py startproject config .
 ```
 
 【コマンドの補足】  
@@ -34,13 +51,13 @@ $ cd path/to/
 $ docker-compose run <コンテナ名> <コマンド>
 ```
 
-つまり、 `web` サービスイメージ `django-admin startproject www` が実行される。  
+つまり、 `web` サービスの中で、 `django-admin startproject config .` が実行される。  
 このコマンドは、 `Django` に対して、 `Django` プロジェクトを組み立てるファイル群の生成を指示するものである。  
- `www` の部分に指定した名前でディレクトリが作成され、その中にファイル群が生成される。
+ `config` の部分に指定した名前でディレクトリが作成され、その中に設定ファイル群が生成される。
 
 
 ### DB接続設定
-`composeexample/settings.py` から `DATABASE` と記載されている部分を探し、下記の内容で置き換える。
+`www/config/settings.py` から `DATABASE` と記載されている部分を探し、下記の内容で置き換える。
 
 ```py
 DATABASES = {
