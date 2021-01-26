@@ -1,3 +1,4 @@
-www/*.pyc
-www/__pycache__/
-www/db/
+*.pyc
+__pycache__
+db
+mysql/logs/*
